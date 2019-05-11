@@ -89,12 +89,7 @@ public class UsuariosImpl implements UsuariosQueries {
 				Criterion[] criterions = new Criterion[subqueries.size()];
 				criteria.add(Restrictions.and(subqueries.toArray(criterions)));
 			}
-			
-			
-			
-			
 		}
-		
 		
 	}
 	

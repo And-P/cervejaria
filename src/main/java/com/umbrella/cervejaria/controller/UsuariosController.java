@@ -3,11 +3,15 @@ package com.umbrella.cervejaria.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -16,6 +20,7 @@ import com.umbrella.cervejaria.repository.Grupos;
 import com.umbrella.cervejaria.repository.Usuarios;
 import com.umbrella.cervejaria.repository.filter.UsuarioFilter;
 import com.umbrella.cervejaria.service.CadastroUsuarioService;
+import com.umbrella.cervejaria.service.StatusUsuario;
 import com.umbrella.cervejaria.service.exception.EmailUsuarioJaCadastradoException;
 import com.umbrella.cervejaria.service.exception.SenhaObrigatoriaUsuarioException;
 
@@ -74,6 +79,13 @@ public class UsuariosController {
 		mv.addObject("grupos", grupos.findAll());
 
 		return mv;
+	}
+	
+	@PutMapping("/status")
+	@ResponseStatus(HttpStatus.OK)
+	public void atualizarStatus(@RequestParam("codigos[]") Long[] codigos, @RequestParam("status") StatusUsuario statusUsuario) {
+		
+		cadastroUsuarioService.alterarStatus(codigos, statusUsuario);
 	}
 }
 

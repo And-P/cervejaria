@@ -4,6 +4,7 @@ import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.web.filter.HttpPutFormContentFilter;
 //import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -36,7 +37,8 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@Override
 	protected Filter[] getServletFilters() {
 		
-		
+		HttpPutFormContentFilter httpPutFormContentFilter = new HttpPutFormContentFilter();
+        
 		
 		//Removido após adicionarmos o Spring Security (19.10) - não resolve mais a acentução
 		/*CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
@@ -44,7 +46,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 			characterEncodingFilter.setForceEncoding(true);
 			return new Filter[] {characterEncodingFilter};*/
 		
-		return new Filter[] {};
+		return new Filter[] { httpPutFormContentFilter };
 	}
 	
 	@Override
