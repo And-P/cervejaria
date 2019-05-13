@@ -76,7 +76,7 @@ public class EstilosController {
 	}
 	
 	@GetMapping													
-	public ModelAndView pesquisar(EstiloFilter estiloFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable
+	public ModelAndView pesquisar(EstiloFilter estiloFilter, BindingResult result, @PageableDefault(size = 4) Pageable pageable
 			, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("estilo/PesquisaEstilos");
 		

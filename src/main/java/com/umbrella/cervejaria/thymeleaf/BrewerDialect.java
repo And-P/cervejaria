@@ -11,7 +11,7 @@ import com.umbrella.cervejaria.thymeleaf.processor.ClassForErrorAttributeTagProc
 import com.umbrella.cervejaria.thymeleaf.processor.MenuAttributeTagProcessor;
 import com.umbrella.cervejaria.thymeleaf.processor.MessageElementTagProcessor;
 import com.umbrella.cervejaria.thymeleaf.processor.OrderElementTagProcessor;
-import com.umbrella.cervejaria.thymeleaf.processor.PaginacaoElementTagProcessor;
+import com.umbrella.cervejaria.thymeleaf.processor.PaginationElementTagProcessor;
 
 public class BrewerDialect extends AbstractProcessorDialect {
 
@@ -25,7 +25,7 @@ public class BrewerDialect extends AbstractProcessorDialect {
 		processadores.add(new ClassForErrorAttributeTagProcessor(dialectPrefix));
 		processadores.add(new MessageElementTagProcessor(dialectPrefix));
 		processadores.add(new OrderElementTagProcessor(dialectPrefix));
-		processadores.add(new PaginacaoElementTagProcessor(dialectPrefix));
+		processadores.add(new PaginationElementTagProcessor(dialectPrefix));
 		processadores.add(new MenuAttributeTagProcessor(dialectPrefix));
 		return processadores;
 	}

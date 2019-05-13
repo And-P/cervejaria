@@ -33,9 +33,10 @@
 				</div>
 			</div>
 			
-			<!-- Formulario -->
+			
 			<div class="container-fluid">
-		
+				
+				<!-- Formulario -->
 				<form method="GET" th:object="${usuarioFilter}">
 					<div class="row">
 											
@@ -68,11 +69,11 @@
 				</form>
 				
 				<div class="aw-datatable-toolbar">
-					<button class="btn btn-default  btn-xs  js-status-btn" data:status = "ATIVAR">
+					<button class="btn btn-default  btn-xs  js-status-btn disabled" data:status="ATIVAR" data:url="@{/usuarios/status}">
 						<span>Ativar</span>
 					</button>
 					
-					<button class="btn btn-default  btn-xs  js-status-btn" data:status = "DESATIVAR">
+					<button class="btn btn-default  btn-xs  js-status-btn disabled" data:status="DESATIVAR" data:url="@{/usuarios/status}">
 						<span>Desativar</span>
 					</button>
 				</div>
@@ -86,7 +87,7 @@
 								<tr>
 			            		<th class="table-usuarios-col-status">
 			            			<div class="checkbox  aw-checkbox-no-margin">
-			            				<input type="checkbox"/>
+			            				<input type="checkbox" class="js-selecao-todos"/>
 			            				<label></label>
 			            			</div>
 			            		</th>
@@ -99,9 +100,9 @@
 						</thead>
 						
 						<tbody>
-							<tr th:each="usuario : ${usuarios}">
+							<tr th:each="usuario : ${pagina.conteudo}">
 								<td>
-									<div class="checkbox  aw-checkbox-no-margin">
+									<div class="checkbox  aw-checkbox-no-margin" th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
 			            				<input type="checkbox" class="js-selecao" data:codigo="${usuario.codigo}">
 			            				<label></label>
 			            			</div>
@@ -109,9 +110,16 @@
 								<td th:text="${usuario.nome}">Joao da Silva</td>
 								<td th:text="${usuario.email}">algum@email.com</td>
 								<td>
-									<span th:each="grupo : ${usuario.grupos}" th:text="|${grupo.nome}${grupoStat.last ? '' : ', '}|"></span>
+									<span th:each="grupo : ${usuario.grupos}" th:text="|${grupo.nome} ${grupoStat.last ? '' : ', '}|" ></span>
 								</td>
-								<td th:text="${usuario.ativo} ? Ativo : Inativo">Administrador</td>
+								<td>
+									<th:block th:if="${usuario.ativo}">
+										<span class="label label-success">Ativo</span>
+									</th:block>
+									<th:block th:if="${not usuario.ativo}">
+										<span class="label label-danger">Inativo</span>
+									</th:block>
+								</td>
 								<td class="text-center">
 									<a class="btn  btn-link  btn-xs" title="Editar"> 
 										<i class="glyphicon glyphicon-pencil"></i>
@@ -120,13 +128,19 @@
 										<i class="glyphicon glyphicon-remove"></i>
 									</a>
 								</td>
-							</tr>		
+							</tr>
+							
+							<tr th:if="${pagina.vazia}">
+								<td colspan="6">Nenhum usuario encontrado</td>
+							</tr>
+									
 						</tbody>
 					</table>
 				</div>
 				
+				<brewer:pagination page="${pagina}"/>
+				
 		    </div>
-			
 		</section>
 	
 	<th:block layout:fragment="javascript-extra">

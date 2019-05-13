@@ -23,6 +23,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.group.GroupSequenceProvider;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.umbrella.cervejaria.model.validation.ClienteGroupSequenceProvider;
 import com.umbrella.cervejaria.model.validation.group.CnpjGroup;
 import com.umbrella.cervejaria.model.validation.group.CpfGroup;
@@ -58,6 +59,7 @@ public class Cliente implements Serializable{
 	@Email(message= "e-mail inválido")
 	private String email;
 	
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 
