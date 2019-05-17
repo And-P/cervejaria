@@ -4,7 +4,7 @@ Brewer.PesquisaRapidaCliente = (function(){
 	
 	function PesquisaRapidaCliente(){
 		
-		this.pesquisaRapidaClienteModal = $('#pesquisaRapidaClientes');
+		this.pesquisaRapidaClientesModal = $('#pesquisaRapidaClientes');
 		this.nomeInput = $('#nomeClienteModal');
 		this.pesquisaRapidaBtn = $('.js-pesquisa-rapida-clientes-btn');
 		this.containerTabelaPesquisaClientes = $("#containerTabelaPesquisaRapidaClientes");
@@ -15,15 +15,19 @@ Brewer.PesquisaRapidaCliente = (function(){
 	
 	PesquisaRapidaCliente.prototype.iniciar = function(){
 		
+		this.pesquisaRapidaClientesModal.on('shown.bs.modal', onShowModal.bind(this));
 		this.pesquisaRapidaBtn.on('click', onPesquisaRapidaClicado.bind(this));
-		
+	}
+	
+	function onShowModal(){
+		this.nomeInput.focus();
 	}
 	
 	function onPesquisaRapidaClicado(event){
 		event.preventDefault();
 		
 		$.ajax({
-			url: this.pesquisaRapidaClienteModal.find('form').attr('action'),
+			url: this.pesquisaRapidaClientesModal.find('form').attr('action'),
 			method: 'GET',
 			contentType: 'application/json',
 			data:{
@@ -37,9 +41,13 @@ Brewer.PesquisaRapidaCliente = (function(){
 	}
 	
 	function onPesquisaConcluida(resultado){
+		this.mensagemErro.addClass('hidden');
+
 		var html = this.template(resultado);
 		this.containerTabelaPesquisaClientes.html(html);
-		this.mensagemErro.addClass('hidden');
+		
+		var tabelaClientePesquisaRapida = new Brewer.TabelaClientePesquisaRapida(this.pesquisaRapidaClientesModal);
+		tabelaClientePesquisaRapida.iniciar();
 	}
 	
 	function onErroPesquisa(){
@@ -52,6 +60,33 @@ Brewer.PesquisaRapidaCliente = (function(){
 	
 	
 }());
+
+Brewer.TabelaClientePesquisaRapida= (function(){
+	
+	function TabelaClientePesquisaRapida(modal){
+		this.modalCliente = modal;
+		this.cliente = $('.js-cliente-pesquisa-rapida');
+	}
+	
+	TabelaClientePesquisaRapida.prototype.iniciar = function(){
+		this.cliente.on('click', onClienteSelecionado.bind(this));
+	}
+	
+	function onClienteSelecionado(evento){
+		this.modalCliente.modal('hide');
+
+		var clienteSelecionado = $(evento.currentTarget);
+		
+		$('#nomeCliente').val(clienteSelecionado.data('nome'));
+		$('#codigoCliente').val(clienteSelecionado.data('codigo'));
+		
+	}
+	
+	return TabelaClientePesquisaRapida;
+	
+	
+}());
+
 
 $(function(){
 	var pesquisaRapidaCliente = new Brewer.PesquisaRapidaCliente(); 
