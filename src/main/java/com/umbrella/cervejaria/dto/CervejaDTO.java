@@ -2,6 +2,8 @@ package com.umbrella.cervejaria.dto;
 
 import java.math.BigDecimal;
 
+import org.springframework.util.StringUtils;
+
 import com.umbrella.cervejaria.model.Origem;
 
 public class CervejaDTO {
@@ -20,7 +22,7 @@ public class CervejaDTO {
 		this.nome = nome;
 		this.origem = origem. getDescricao();
 		this.valor = valor;
-		this.foto = foto;
+		this.foto = StringUtils.isEmpty(foto) ? "cerveja-mock.png" : foto;
 	}
 
 	public Long getCodigo() {
